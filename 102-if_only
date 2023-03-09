@@ -1,2 +1,21 @@
 #!/bin/bash
-chown --from=guilluame betty hello
+# Set the file path
+FILE_PATH="./hello"
+
+# Check if the file exists
+if [ ! -e "$FILE_PATH" ]; then
+    echo "File 'hello' does not exist."
+    exit 1
+fi
+
+# Check if the current user is guillaume
+if [ "$(stat -c '%U' "$FILE_PATH")" != "guillaume" ]; then
+    echo "You do not have permission to change the owner of 'hello'."
+    exit 1
+fi
+
+# Change the owner of the file to betty
+chown betty "$FILE_PATH"
+
+echo "Owner of 'hello' has been changed to 'betty'."
+
